@@ -15,7 +15,7 @@ def index():
 
 @app.route("/order", methods=["POST"])
 def order():
-    pass
+    print(request.form)
 
 @app.route("/ticket/<seed>", )
 def ticket(seed):
