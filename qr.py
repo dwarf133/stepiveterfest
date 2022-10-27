@@ -5,6 +5,7 @@ import uuid
 import png
 from redmail import EmailSender
 from smtplib import SMTP_SSL
+import os
 
 
 
@@ -41,6 +42,8 @@ def create_ticket(email: str, phone: str) -> bool:
         """,
         body_images={"myimg": src}
     )
+    os.remove(src)
+
 
 
 

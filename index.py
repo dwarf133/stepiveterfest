@@ -12,7 +12,7 @@ def index():
 
 @app.route("/order", methods=["POST"])
 def order():
-    pass
+    print(request.form)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
