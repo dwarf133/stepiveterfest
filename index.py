@@ -3,6 +3,8 @@ from flask import render_template
 from db.app import Tickets
 from db.app import db
 from flask import request
+from flask import url_for
+from flask import request
 
 app = Flask(__name__, static_url_path="/", static_folder='templates')
 
@@ -11,6 +13,9 @@ app = Flask(__name__, static_url_path="/", static_folder='templates')
 def index():
     return render_template('/index.html')
 
+@app.route("/order", methods=["POST"])
+def order():
+    pass
 
 @app.route("/ticket/<seed>", )
 def ticket(seed):
