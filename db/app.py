@@ -15,11 +15,11 @@ db_user = os.environ.get('DB_USER')
 db_pass = os.environ.get('DB_PASS')
 
 try:
-    database_uri = 'postgresql://' + db_user + ':' + db_pass + '@' + db_host + '/' + db_name
-except():
+    database_uri = f'postgresql://{db_user}:{db_pass}@{db_host}/{db_name}'
+except:
     print('wrong connect data')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + db_user + ':' + db_pass + '@' + db_host + '/' + db_name
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_pass}@{db_host}/{db_name}'
 
 db = SQLAlchemy(app)
 db.init_app(app)

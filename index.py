@@ -16,6 +16,7 @@ def index():
 @app.route("/order", methods=["POST"])
 def order():
     print(request.form)
+    return
 
 @app.route("/ticket/<seed>", )
 def ticket(seed):
@@ -37,4 +38,4 @@ def create_ticket():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', load_dotenv=True)
