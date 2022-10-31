@@ -14,6 +14,7 @@ app = Flask(__name__, static_url_path="/", static_folder='templates')
 def index():
     return render_template('/index.html')
 
+
 @app.route("/order", methods=["POST"])
 def order():
     order_id = request.form['id']
@@ -21,6 +22,7 @@ def order():
         print(order_id)
         qr.proceed_order(int(order_id))
     return make_response(request.form['id'], 200)
+
 
 @app.route("/ticket/<seed>", )
 def ticket(seed):
