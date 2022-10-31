@@ -1,10 +1,11 @@
-from flask import Flask
+from flask import Flask, make_response
 from flask import render_template
 from db.app import Tickets
 from db.app import db
 from flask import request
 from flask import url_for
 from flask import request
+import qr
 
 app = Flask(__name__, static_url_path="/", static_folder='templates')
 
@@ -15,8 +16,11 @@ def index():
 
 @app.route("/order", methods=["POST"])
 def order():
-    print(request.form)
-    return
+    order_id = request.form['id']
+    if request.form['status'] == '10':
+        print(order_id)
+        qr.proceed_order(int(order_id))
+    return make_response(request.form['id'], 200)
 
 @app.route("/ticket/<seed>", )
 def ticket(seed):
