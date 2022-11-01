@@ -21,11 +21,21 @@ def order():
     pass
 
 
+@app_route.post("/ticket")
+def ticket_create():
+    return ticket_controller.create(request)
+
+
 @app_route.get("/tickets")
-def tickets():
+def tickets_read():
     return ticket_controller.read(request)
 
 
-@app_route.post("/ticket")
-def ticket():
-    return ticket_controller.create(request)
+@app_route.patch("/ticket")
+def ticket_update():
+    return ticket_controller.update(request)
+
+
+@app_route.delete("/ticket")
+def ticket_delete():
+    return ticket_controller.delete(request)
