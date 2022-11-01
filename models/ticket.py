@@ -41,3 +41,11 @@ class Ticket(Base):
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
+
+    def create(self):
+        try:
+            db_session.add(self)
+            db_session.commit()
+        except exc.SQLAlchemyError as e:
+            return e
+        return self 
