@@ -1,11 +1,9 @@
-import sqlalchemy
 from sqlalchemy import exc
 from werkzeug import exceptions
 from flask import request
 from helpers.json import json_response
 from models.ticket import Ticket
 from database.connect import db_session
-from database.connect import Base
 
 
 def create(req: request):
