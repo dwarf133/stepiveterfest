@@ -24,16 +24,7 @@ def create(req: request):
 
 def read(req: request):
     tickets = Ticket.query.all()
-    response = make_response(
-        jsonify(
-            {
-                "status": "success",
-                "data": tickets
-            }
-        ),
-        200,
-    )
-    response.headers["Content-Type"] = "application/json"
+    response = json_response(tickets)
     return response
 
 
