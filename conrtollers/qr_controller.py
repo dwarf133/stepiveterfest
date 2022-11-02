@@ -13,6 +13,7 @@ import os
 from models.ticket import Ticket
 
 
+
 def generate_qr(seed: str) -> str:
     image = pyqrcode.create(
         f'https://fest.stepiveter.ru/check?seed={str(seed)}'
@@ -65,8 +66,6 @@ class Order:
 def create_ticket(order: Order) -> bool: 
     seed = uuid.uuid4()    
     
-    ticket = Ticket(str(seed), order.id, order.email, order.mobile)
-    ticket.create()
 
     """
     ------------------------------
@@ -114,9 +113,6 @@ def set_order_status(id: int, status: int):
 
 
 def proceed_order(id: int):
-    tickets = Ticket.read(id)
-    if not tickets:
-        return
     order = Order(id)
     while True:
         order.update_order()

@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
 from database.connect import Base
+from database.connect import db_session
+from sqlalchemy import exc
 
 
 class Ticket(Base):
@@ -41,3 +43,18 @@ class Ticket(Base):
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
+
+    def create(self):
+        try:
+            db_session.add(self)
+            db_session.commit()
+        except exc.SQLAlchemyError as e:
+            return e
+        return self 
+
+    def read(order_id: int):
+        try:
+            tickets = Ticket.query.filter_by(order_id=order_id).all()
+        except exc.InvalidRequestError as e:
+            return e
+        return tickets
