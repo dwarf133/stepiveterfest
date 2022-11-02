@@ -1,1 +1,1 @@
-gunicorn --workers=2 app:run
+gunicorn --bind 0.0.0.0:80 --workers=2 'app:init()'
