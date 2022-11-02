@@ -1,1 +1,1 @@
-flask --app index --debug -e .env run --host=0.0.0.0
+gunicorn --bind 0.0.0.0:80 --workers=2 'app:init()'
