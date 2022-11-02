@@ -3,7 +3,9 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from dotenv import load_dotenv
 
+load_dotenv('.env')
 db_connection = os.environ.get('DB_CONNECTION')
 db_host = os.environ.get('DB_HOST')
 db_port = os.environ.get('DB_PORT')
