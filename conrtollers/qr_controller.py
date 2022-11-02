@@ -57,47 +57,57 @@ class Order:
     def paid(self):
         return self._data['paid']
 
+    @property
+    def goods(self):
+        return self._data['goods']
+
     def update_order(self):
         _updated_order = Order.get_order(self.id)
         if _updated_order != None:
             self._data['paid'] = _updated_order['paid']
 
 
-def create_ticket(order: Order) -> bool: 
-    seed = uuid.uuid4()    
+def create_tickets(order: Order) -> bool: 
     
-    ticket = Ticket(seed=str(seed), order_id=order.id, email=order.email, phone=order.mobile)
-    ticket.create()
-    """
-    ------------------------------
-    тут нужно класть
-    в базу str(seed), email, phone
-    ------------------------------
-    """
+    for t in order.goods:
+        type = t['title']
+        for i in range(0, t['count']):
 
-    src = generate_qr(str(seed))
     
-    email = EmailSender(
-        host="smtp.yandex.ru",
-        port=465,
-        use_starttls=False,
-        cls_smtp=SMTP_SSL,
-        username = 'noreply@stepiveter.ru',
-        password = 'l0lk@k12'
-    )   
+            seed = uuid.uuid4()    
+            
+            ticket = Ticket(seed=str(seed), order_id=order.id, email=order.email, phone=order.mobile, ticket_type=type)
+            ticket.create()
+            """
+            ------------------------------
+            тут нужно класть
+            в базу str(seed), email, phone
+            ------------------------------
+            """
 
-    email.send(
-        subject='Это билет на фест, долбоклюй!',
-        sender="noreply@stepiveter.ru",
-        receivers=[order.email],
-        html="""
-        <h1>Hi,</h1>
-        <p>have you seen this?</p>
-        {{ myimg }}
-        """,
-        body_images={"myimg": src}
-    )
-    os.remove(src)
+            src = generate_qr(str(seed))
+            
+            email = EmailSender(
+                host="smtp.yandex.ru",
+                port=465,
+                use_starttls=False,
+                cls_smtp=SMTP_SSL,
+                username = 'noreply@stepiveter.ru',
+                password = 'l0lk@k12'
+            )   
+
+            email.send(
+                subject='Это билет на фест, долбоклюй!',
+                sender="noreply@stepiveter.ru",
+                receivers=[order.email],
+                html="""
+                <h1>Hi,</h1>
+                <p>have you seen this?</p>
+                {{ myimg }}
+                """,
+                body_images={"myimg": src}
+            )
+            os.remove(src)
 
 
 # не рабоатет пока
@@ -121,7 +131,7 @@ def proceed_order(id: int):
         order.update_order()
         if order.paid:
             print("greate job")
-            create_ticket(order)
+            create_tickets(order)
             break
         else:
             print('not so good') 
