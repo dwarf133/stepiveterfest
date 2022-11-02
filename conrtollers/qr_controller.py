@@ -66,7 +66,8 @@ class Order:
 def create_ticket(order: Order) -> bool: 
     seed = uuid.uuid4()    
     
-
+    ticket = Ticket(seed=str(seed), order_id=order.id, email=order.email, phone=order.mobile)
+    ticket.create()
     """
     ------------------------------
     тут нужно класть
@@ -113,6 +114,8 @@ def set_order_status(id: int, status: int):
 
 
 def proceed_order(id: int):
+    if Ticket.read(id):
+        return 
     order = Order(id)
     while True:
         order.update_order()
