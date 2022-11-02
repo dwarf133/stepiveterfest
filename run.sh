@@ -1,1 +1,1 @@
-gunicorn --bind 0.0.0.0:80 --workers=2 'app:init()'
+gunicorn --bind fest.stepiveter.ru:443 --timeout 1000 --keep-alive  1000 --keyfile /etc/letsencrypt/live/fest.stepiveter.ru/privkey.pem --certfile /etc/letsencrypt/live/fest.stepiveter.ru/fullchain.pem --workers=3 'app:init()' -D
