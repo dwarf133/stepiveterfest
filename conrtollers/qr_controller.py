@@ -97,12 +97,12 @@ def create_tickets(order: Order) -> bool:
             )   
 
             email.send(
-                subject='Это билет на фест, долбоклюй!',
+                subject='Просто билет на фест (без пасхалок) :(!',
                 sender="noreply@stepiveter.ru",
                 receivers=[order.email],
                 html="""
-                <h1>Hi,</h1>
-                <p>have you seen this?</p>
+                <h1>Степная История</h1>
+                <p>QR код для посещения дня рождения Степь и Ветер</p>
                 {{ myimg }}
                 """,
                 body_images={"myimg": src}
