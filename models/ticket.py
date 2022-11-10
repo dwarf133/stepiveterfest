@@ -61,3 +61,17 @@ class Ticket(Base):
         except exc.InvalidRequestError as e:
             return e
         return tickets
+
+
+    def count_tickets():
+        try: 
+            FlexCount = Ticket.query.filter_by(ticket_type='Flex').count()
+            SupporterCount = Ticket.query.filter_by(ticket_type='Supporter').count()
+            RampageCount = Ticket.query.filter_by(ticket_type='Rampage').count()
+        except exc.InvalidRequestError as e:
+            return e
+        return {
+            'Flex': FlexCount,
+            'Supporter': SupporterCount,
+            'Rampage': RampageCount
+        }
