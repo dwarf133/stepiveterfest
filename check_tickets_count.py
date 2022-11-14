@@ -19,7 +19,7 @@ email = EmailSender(
 email.send(
     subject='Сводка купленных билетов',
     sender="noreply@stepiveter.ru",
-    receivers=['map@stepiveter.ru', 'danila@stepiveter.ru'],
+    receivers=['map@stepiveter.ru', 'danila@stepiveter.ru', 'smm@stepiveter.ru'],
     html=f"""
     <p>
     Flex: {resp['Flex']}</br>
