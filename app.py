@@ -5,7 +5,7 @@ from database.connect import init_db
 from helpers.model_encoder import ModelEncoder
 from routes.web import app_route
 from dotenv import load_dotenv
-
+from celery import Celery
 
 
 def init():
@@ -19,3 +19,4 @@ def init():
 
 if __name__ == '__main__':
     init().run(debug=False)
+    

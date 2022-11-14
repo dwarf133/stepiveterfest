@@ -62,9 +62,12 @@ class Order:
         return self._data['goods']
 
     def update_order(self):
-        _updated_order = Order.get_order(self.id)
-        if _updated_order != None:
-            self._data['paid'] = _updated_order['paid']
+        try:
+            _updated_order = Order.get_order(self.id)
+            if _updated_order != None:
+                self._data['paid'] = _updated_order['paid']
+        except:
+            return
 
 
 def create_tickets(order: Order) -> bool: 
@@ -110,19 +113,6 @@ def create_tickets(order: Order) -> bool:
             os.remove(src)
 
 
-# не рабоатет пока
-def set_order_status(id: int, status: int):
-    # try:
-    req = request.Request(f'https://www.botobot.ru/api/v1/updateOrderStatus', headers={'Content-Type': 'application/json', 'Authorization': 'Bearer v1.57678.wIP9pATCDWrtbAuMnkigLxgnN8QSn-LGn_TRq6niSjSjaGuUitFkStxedsDb7nMf' })
-    req.data = json.dumps({'id' : id, 'status' : status}).encode('utf-8')
-    resp = request.urlopen(req)
-    # resp_str = resp.status
-    # # order_list = json.loads(resp_str)
-    # # except:
-    # #     return None
-    # print(resp_str)
-
-
 def proceed_order(id: int):
     if Ticket.read(id):
         return 
@@ -130,11 +120,11 @@ def proceed_order(id: int):
     while True:
         order.update_order()
         if order.paid:
-            print("greate job")
+            print(f"Order {id} successeful proceeded")
             create_tickets(order)
             break
         else:
-            print('not so good') 
+            print(f'Waiting for payment for order {id}') 
             time.sleep(10)
 
 

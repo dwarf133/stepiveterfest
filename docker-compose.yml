@@ -28,26 +28,6 @@ services:
     networks:
       - postgres
 
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4:5.7
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "stepuser@step.com"
-      PGADMIN_DEFAULT_PASSWORD: "pgadminpwd4step"
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-    volumes:
-      - ./pgadmin:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 1G
-    networks:
-      - postgres
-
   postgres_exporter:
     container_name: exporter_container
     image: prometheuscommunity/postgres-exporter:v0.10.0
@@ -68,7 +48,24 @@ services:
           memory: 500M
     networks:
       - postgres
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbitmq_data:/var/lib/rabbitmq/
+        - rabbitmq_log:/var/log/rabbitmq/
+    networks:
+        - rabbitmq_net
+
+volumes:
+    rabbitmq_data:
+    rabbitmq_log:
 
 networks:
   postgres:
+    driver: bridge
+  rabbitmq_net:
     driver: bridge

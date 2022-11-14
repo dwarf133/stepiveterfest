@@ -5,6 +5,7 @@ from flask import render_template
 from conrtollers import qr_controller
 from conrtollers import ticket_controller
 from helpers.json import json_response
+import tasks
 
 app_route = Blueprint('route', __name__)
 
@@ -20,7 +21,8 @@ def index():
 
 @app_route.route("/order", methods=["POST"])
 def order():
-    qr_controller.proceed_order(int(request.form['id']))
+    tasks.qr_tasks.delay(int(request.form['id']))
+    # qr_controller.proceed_order(int(request.form['id']))
     return json_response()
 
 
