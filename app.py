@@ -6,7 +6,14 @@ from helpers.model_encoder import ModelEncoder
 from routes.web import app_route
 from dotenv import load_dotenv
 
-app = Flask(__name__, static_url_path="/", static_folder='templates')
+# Роут для отдачи статик файлов
+
+app = Flask(
+    __name__,
+    static_folder="static",
+    static_url_path="",
+    template_folder='templates'
+)
 
 app.register_blueprint(app_route)
 app.json_encoder = ModelEncoder
