@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
 from database.connect import Base
+from database.connect import db_session
+from sqlalchemy import exc
 
 
 class Ticket(Base):
@@ -11,15 +13,17 @@ class Ticket(Base):
     order_id = Column(Integer, nullable=False)
     email = Column(String, nullable=False)
     phone = Column(String, nullable=False)
+    ticket_type = Column(String, nullable=False)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
 
-    def __init__(self, id=None, seed=None, order_id=None, email=None, phone=None, created_at=None, updated_at=None):
+    def __init__(self, id=None, seed=None, order_id=None, email=None, phone=None, ticket_type=None, created_at=None, updated_at=None):
         self.id = id
         self.phone = phone
         self.email = email
         self.order_id = order_id
         self.seed = seed
+        self.ticket_type = ticket_type
         self.created_at = created_at
         self.updated_at = updated_at
 
@@ -38,6 +42,36 @@ class Ticket(Base):
             "phone": self.phone,
             "email": self.email,
             "seed": self.seed,
+            "ticket_type": self.ticket_type,
             "created_at": self.created_at,
             "updated_at": self.updated_at
+        }
+
+    def create(self):
+        try:
+            db_session.add(self)
+            db_session.commit()
+        except exc.SQLAlchemyError as e:
+            return e
+        return self 
+
+    def read(order_id: int):
+        try:
+            tickets = Ticket.query.filter_by(order_id=order_id).all()
+        except exc.InvalidRequestError as e:
+            return e
+        return tickets
+
+
+    def count_tickets():
+        try: 
+            FlexCount = Ticket.query.filter_by(ticket_type='Flex').count()
+            SupporterCount = Ticket.query.filter_by(ticket_type='Supporter').count()
+            RampageCount = Ticket.query.filter_by(ticket_type='Rampage').count()
+        except exc.InvalidRequestError as e:
+            return e
+        return {
+            'Flex': FlexCount,
+            'Supporter': SupporterCount,
+            'Rampage': RampageCount
         }

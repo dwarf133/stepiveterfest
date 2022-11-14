@@ -1,6 +1,10 @@
-from flask import Blueprint
+from flask import Blueprint, make_response
 from flask import request
 from flask import render_template
+from conrtollers import qr_controller
+from conrtollers import ticket_controller
+from helpers.json import json_response
+import tasks
 
 from conrtollers import ticket_controller, user_controller
 
@@ -23,7 +27,9 @@ def login():
 
 @app_route.route("/order", methods=["POST"])
 def order():
-    pass
+    tasks.qr_tasks.delay(int(request.form['id']))
+    # qr_controller.proceed_order(int(request.form['id']))
+    return json_response()
 
 
 @app_route.post("/ticket")

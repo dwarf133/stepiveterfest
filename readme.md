@@ -9,3 +9,7 @@
 ### composer
 
 `docker-compose up -d`
+
+### kill celery workers
+
+`pkill -9 -f 'tasks worker'`
