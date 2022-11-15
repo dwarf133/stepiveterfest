@@ -5,3 +5,4 @@ venv/
 .vscode/
 tmp_img/
 .DS_Store
+.idea
