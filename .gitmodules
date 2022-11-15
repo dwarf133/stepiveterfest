@@ -1,3 +1,3 @@
 [submodule "StepAndWind"]
-	path = templates/main
-	url = https://github.com/NoNameNoMeme/StepAndWind
+	path = templates/main/
+	url = git://github.com/NoNameNoMeme/StepAndWind
