@@ -13,3 +13,7 @@
 ### kill celery workers
 
 `pkill -9 -f 'tasks worker'`
+
+### venv
+
+`python3 -m venv venv`
