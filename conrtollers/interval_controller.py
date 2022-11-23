@@ -15,6 +15,7 @@ def get_possible_time(type: str):
 def order_interval(req: dict):
     interval = TimeIntervals.select_interval_by_time(time=req['time'], type=req['type'])
     if not(isinstance(interval, exc.InvalidRequestError)) and not(interval == []):
+        interval = interval[0]
         guest = Guests(name=req['name'], surname=req['surname'], phone=req['phone'], email=req['email'], interval_id=interval.id)
         err = guest.create()
         if isinstance(err, exc.SQLAlchemyError):
