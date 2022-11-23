@@ -10,4 +10,7 @@ def json_response(data=None, status="success", code=200):
 
     response = make_response(jsonify(body), code)
     response.headers["Content-Type"] = "application/json"
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, PUT, POST, DELETE'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
     return response

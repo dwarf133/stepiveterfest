@@ -16,7 +16,7 @@ class TimeIntervals(Base):
     updated_at = Column(DateTime, onupdate=func.now())
 
 
-    def __init__(self, id, time, type, vacant, created_at, updated_at) -> None:
+    def __init__(self, id=None, time=None, type=None, vacant=None, created_at=None, updated_at=None) -> None:
         self.id = id
         self.time = time
         self.type = type
@@ -43,7 +43,7 @@ class TimeIntervals(Base):
 
     def select_interval_by_time(time: String, type: String):
         try:
-            interval = TimeIntervals.query.filter_by(time=time, type=type, vacant=True).one()
+            interval = TimeIntervals.query.filter_by(time=time, type=type, vacant=True).all()[0]
         except exc.InvalidRequestError as e:
             return e
         return interval
@@ -90,7 +90,7 @@ class Guests(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
 
-    def __init__(self, id, name, surname, phone, email, interval_id, created_at, updated_at) -> None:
+    def __init__(self, id=None, name=None, surname=None, phone=None, email=None, interval_id=None, created_at=None, updated_at=None) -> None:
         self.id = id
         self.name = name
         self.surname = surname, 
@@ -100,12 +100,10 @@ class Guests(Base):
         self.created_at = created_at
         self.updated_at = updated_at
 
-    def create(self, interval: TimeIntervals):
+    def create(self):
         try:
-            if interval.vacant:
-                interval.make_not_vacant()
-                db_session.add(self)
-                db_session.commit()
+            db_session.add(self)
+            db_session.commit()
         except exc.SQLAlchemyError as e:
             return e
         return self

@@ -35,9 +35,9 @@ def order():
 def intervals():
     if request.method == 'GET':
         interval_type = request.args.get('type', str)
-        interval_controller.get_possible_time(interval_type)
+        return interval_controller.get_possible_time(interval_type)
     else:
-        interval_controller.order_interval(request.form)
+        return interval_controller.order_interval(request.form)
 
 @app_route.post("/ticket")
 def ticket_create():
