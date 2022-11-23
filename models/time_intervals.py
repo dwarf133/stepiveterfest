@@ -3,6 +3,7 @@ from sqlalchemy.sql import func
 from database.connect import Base
 from database.connect import db_session
 from sqlalchemy import exc
+from sqlalchemy.orm import relationship
 import time
 
 class TimeIntervals(Base):
@@ -43,7 +44,7 @@ class TimeIntervals(Base):
 
     def select_interval_by_time(time: String, type: String):
         try:
-            interval = TimeIntervals.query.filter_by(time=time, type=type, vacant=True).all()[0]
+            interval = TimeIntervals.query.filter_by(time=time, type=type, vacant=True).all()
         except exc.InvalidRequestError as e:
             return e
         return interval
@@ -86,9 +87,10 @@ class Guests(Base):
     surname = Column(String, nullable=False)
     phone = Column(String, nullable=False)
     email = Column(String, nullable=False)
-    inteval_id = Column(Integer, ForeignKey("intervals.id"), nullable=False)
+    interval_id = Column(Integer, ForeignKey("intervals.id"), nullable=False)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
+    interval = relationship("TimeIntervals", foreign_keys='TimeIntervals.id', primaryjoin='TimeIntervals.id==Guests.interval_id')
 
     def __init__(self, id=None, name=None, surname=None, phone=None, email=None, interval_id=None, created_at=None, updated_at=None) -> None:
         self.id = id

@@ -14,16 +14,13 @@ def get_possible_time(type: str):
     
 def order_interval(req: dict):
     interval = TimeIntervals.select_interval_by_time(time=req['time'], type=req['type'])
-    if not(isinstance(interval, exc.InvalidRequestError)):
-        print('\n'+str(interval.id)+'\n')
+    if not(isinstance(interval, exc.InvalidRequestError)) and not(interval == []):
         guest = Guests(name=req['name'], surname=req['surname'], phone=req['phone'], email=req['email'], interval_id=interval.id)
         err = guest.create()
         if isinstance(err, exc.SQLAlchemyError):
-            print(err)
-            interval.make_not_vacant()
             return json_response('Time interval already ordered fuck')
         else: 
+            interval.make_not_vacant()
             return json_response('Succefuly ordered')
     else:
-        print(interval)
         return json_response('Time interval already ordered')
