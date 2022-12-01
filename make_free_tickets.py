@@ -1,4 +1,4 @@
-#!/var/www/stepiveter/venv/bin/python3
+#!/var/www/stepiveterfest/venv/bin/python3
 #-*- coding: utf-8 -*-
 from typing import Dict
 from urllib import request
@@ -19,8 +19,9 @@ def generate_qr(seed: str) -> str:
     image.png(f'tmp_img/{seed}.png', scale=5)
     return f'tmp_img/{seed}.png'
 
-EMAILS = ['Orenjane@mail.ru', 'dm3try@gmail.com', 'covereser@gmail.com', 'yungisaev22@mail.ru',\
-        'evgenuy.st1994@mail.ru', 'nik-antonenko1998@mail.ru', 'kolras@izh.com', ' a3.kzn@mail.ru.']
+EMAILS = ['Bo56@mail.ru', 'Bo56@mail.ru', 'Gospodipomog@vk.com', 'grimesidegang@gmail.com', 'Ultrasvladik@gmail.com', 'yangirovme@gmail.com', 'relvinavil19@icloud.com', 'dnandrv@gmail.com', 'alll.alll.2010@mail.ru', 'katariks95@gmail.com', 'rx9sn@bk.ru', 'rx9sn@bk.ru']
+
+print(f'Отправить билетов: {len(EMAILS)}')
 
 emailsender = EmailSender(
         host="smtp.yandex.ru",
@@ -31,6 +32,7 @@ emailsender = EmailSender(
         password = 'l0lk@k12'
     ) 
 
+t = 0
 for email in EMAILS:
     seed = uuid.uuid4()    
 
@@ -51,3 +53,5 @@ for email in EMAILS:
 
     ticket = Ticket(seed=str(seed), order_id=666, email=email, phone=666, ticket_type="Flex")
     ticket.create()
+    t+=1
+    print(f"Отправленно {t} из {len(EMAILS)}")
