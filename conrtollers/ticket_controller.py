@@ -85,7 +85,7 @@ def check(req: request):
 
     if current_user.is_authenticated:
         last_usage = ticket.last_usage
-        ticket.query.update({Ticket.last_usage: datetime.now()})
+        Ticket.query.filter_by(**args).update({Ticket.last_usage: datetime.now()})
         db_session.commit()
 
         ticket.last_usage = last_usage
