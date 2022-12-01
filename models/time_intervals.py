@@ -56,6 +56,12 @@ class TimeIntervals(Base):
             return e
         return intervals
 
+    def is_ticket_tattoes_type(self):
+        if self.type == 'tattoes':
+            return True
+        else:
+            return False
+
     def make_not_vacant(self):
         try:
             self.vacant = False

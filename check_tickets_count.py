@@ -1,4 +1,4 @@
-#!/var/www/stepiveter/venv/bin/python3
+#!/var/www/stepiveterfest/venv/bin/python3
 #-*- coding: utf-8 -*-
 from models.ticket import Ticket
 from redmail import EmailSender
