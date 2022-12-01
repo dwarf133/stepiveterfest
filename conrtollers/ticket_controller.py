@@ -1,9 +1,11 @@
 from sqlalchemy import exc
 from werkzeug import exceptions
-from flask import request
+from flask import request, render_template
 from helpers.json import json_response
 from models.ticket import Ticket
 from database.connect import db_session
+from datetime import datetime
+from flask_login import current_user
 
 
 def create(req: request):
@@ -76,10 +78,23 @@ def delete(req: request):
 
 def check(req: request):
     args = req.args.to_dict()
-
     try:
-        ticket = Ticket.query.filter_by(**args).get(1)
+        ticket = Ticket.query.filter_by(**args).first()
     except exc.InvalidRequestError as e:
-        return json_response(str(e), 'error', 500)
+        return render_template('auth/check_error.html')
 
-    return json_response(ticket)
+    if current_user.is_authenticated:
+        last_usage = ticket.last_usage
+        ticket.query.update({Ticket.last_usage: datetime.now()})
+        db_session.commit()
+
+        ticket.last_usage = last_usage
+
+        return render_template('auth/check.html',
+                               ticket_type=ticket.ticket_type,
+                               email=ticket.email,
+                               phone=ticket.phone,
+                               last_usage=ticket.last_usage,
+                               )
+    else:
+        return render_template('auth/check.html', ticket_type=ticket.ticket_type)

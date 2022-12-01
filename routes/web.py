@@ -35,7 +35,7 @@ def show_profile():
 
 @app_route.get("/check")
 def check():
-    return auth_controller.show_profile()
+    return ticket_controller.check(request)
 
 
 # @app_route.route('/login', methods=['POST'])
@@ -56,6 +56,7 @@ def order():
     # qr_controller.proceed_order(int(request.form['id']))
     return json_response()
 
+
 @app_route.route("/intervals", methods=['POST', 'GET'])
 def intervals():
     if request.method == 'GET':
@@ -63,6 +64,7 @@ def intervals():
         return interval_controller.get_possible_time(interval_type)
     else:
         return interval_controller.order_interval(request.form)
+
 
 @app_route.post("/ticket")
 def ticket_create():

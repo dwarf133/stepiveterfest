@@ -10,6 +10,9 @@ def show():
 
 
 def login(req: request):
+    if current_user.is_authenticated:
+        redirect(url_for('route.show_profile'))
+
     email = req.form.get('email')
     password = req.form.get('password')
 
@@ -26,7 +29,7 @@ def login(req: request):
 
     login_user(user, remember=remember)
 
-    return redirect(url_for('route.profile'))
+    return redirect(url_for('route.show_profile'))
 
 
 def show_profile():
