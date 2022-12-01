@@ -72,3 +72,14 @@ def delete(req: request):
     db_session.commit()
 
     return json_response()
+
+
+def check(req: request):
+    args = req.args.to_dict()
+
+    try:
+        ticket = Ticket.query.filter_by(**args).get(1)
+    except exc.InvalidRequestError as e:
+        return json_response(str(e), 'error', 500)
+
+    return json_response(ticket)

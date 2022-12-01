@@ -1,7 +1,7 @@
-from flask import Blueprint, make_response
+from flask import Blueprint
 from flask import request
 from flask import render_template
-from conrtollers import qr_controller
+from conrtollers import qr_controller, auth_controller
 from conrtollers import ticket_controller
 from helpers.json import json_response
 import tasks
@@ -18,9 +18,34 @@ def index():
     return render_template('main/index.html')
 
 
-@app_route.route("/login")
+@app_route.get("/login")
+def show_login():
+    return auth_controller.show()
+
+
+@app_route.post("/login")
 def login():
-    return render_template('auth/index.html')
+    return auth_controller.login(request)
+
+
+@app_route.get("/profile")
+def show_profile():
+    return auth_controller.show_profile()
+
+
+@app_route.get("/check")
+def check():
+    return auth_controller.show_profile()
+
+
+# @app_route.route('/login', methods=['POST'])
+# def login_post():
+#     return auth_controller.login(request)
+
+
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return user_controller.read(user_id)
 
 
 # --- Api Routes --- #

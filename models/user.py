@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
 from database.connect import Base
+from flask_login import UserMixin
 
 
-class User(Base):
+class User(UserMixin, Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
@@ -35,3 +36,6 @@ class User(Base):
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
+
+    def is_active(self):
+        return True

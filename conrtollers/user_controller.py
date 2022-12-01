@@ -21,15 +21,17 @@ def create(req: request):
     return response
 
 
-def read(req: request):
-    args = req.args.to_dict()
+def read(user_id):
+    # args = req.args.to_dict()
+    #
+    # try:
+    #     users = User.query.filter_by(**args).all()
+    # except exc.InvalidRequestError as e:
+    #     return json_response(str(e), 'error', 500)
+    #
+    # return json_response(users)
 
-    try:
-        users = User.query.filter_by(**args).all()
-    except exc.InvalidRequestError as e:
-        return json_response(str(e), 'error', 500)
-
-    return json_response(users)
+    return User.get(user_id)
 
 
 def update(req: request):
