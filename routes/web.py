@@ -6,7 +6,7 @@ from conrtollers import ticket_controller
 from helpers.json import json_response
 import tasks
 
-from conrtollers import ticket_controller, user_controller
+from conrtollers import ticket_controller, user_controller, interval_controller
 
 app_route = Blueprint('route', __name__)
 
@@ -56,6 +56,13 @@ def order():
     # qr_controller.proceed_order(int(request.form['id']))
     return json_response()
 
+@app_route.route("/intervals", methods=['POST', 'GET'])
+def intervals():
+    if request.method == 'GET':
+        interval_type = request.args.get('type', str)
+        return interval_controller.get_possible_time(interval_type)
+    else:
+        return interval_controller.order_interval(request.form)
 
 @app_route.post("/ticket")
 def ticket_create():

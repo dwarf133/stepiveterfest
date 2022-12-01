@@ -9,6 +9,7 @@ from routes.web import app_route
 from dotenv import load_dotenv
 from celery import Celery
 from flask_login import LoginManager
+from flask_cors import CORS
 
 app = Flask(
     __name__,
@@ -30,6 +31,7 @@ def init():
     )
     app.register_blueprint(app_route)
     app.json_encoder = ModelEncoder
+    CORS(app)
     load_dotenv('.env')
     init_db()
 
